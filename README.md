@@ -1,2 +1,5 @@
 # express-blog
-Blog based on ExpressJS.
+## Blog based on ExpressJS.
+
+# Usage
+## npm install
