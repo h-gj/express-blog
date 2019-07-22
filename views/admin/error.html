@@ -14,10 +14,24 @@
     <div class="panel-body">{{message}}</div>
     <div class="panel-footer">
         {% if url %}
-        <a href="{{url}}">点击这里跳转</a>
+        <a id="goto" href="{{url}}">点击这里跳转<span id="remaining"></span>S</a>
         {% else %}
-        <a href="javascript:window.history.back();">返回上一步</a>
+        <a href="javascript:window.history.back();">返回上一步<span id="remaining"></span>S</a>
         {% endif %}
+
+        <script>
+                $('#remaining').html(3)
+                let remaining = 2
+                const i = setInterval(function(){
+                    $('#remaining').html(remaining)
+                    remaining --
+                    if (remaining < 1) {
+                        clearInterval(i)
+                        const gotoUrl = $('#goto').attr('href')
+                        gotoUrl ? window.location=gotoUrl : window.history.back()
+                    }
+                }, 1000)
+            </script>
 
     </div>
 </div>

@@ -13,7 +13,20 @@
     </div>
     <div class="panel-body">{{message}}</div>
     <div class="panel-footer">
-        <a href="{{url}}">点击这里跳转</a>
+
+        <a id="goto" href="{{ url }}">点击这里跳转<span id="remaining"></span>S</a>
+        <script>
+            $('#remaining').html(3)
+            let remaining = 2
+            const i = setInterval(function(){
+                $('#remaining').html(remaining)
+                remaining --
+                if (remaining < 1) {
+                    clearInterval(i)
+                    window.location = $('#goto').attr('href')
+                }
+            }, 1000)
+        </script>
     </div>
 </div>
 

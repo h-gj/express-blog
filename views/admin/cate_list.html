@@ -24,8 +24,8 @@
         <td>{{category._id.toString()}}</td>
         <td>{{category.name}}</td>
         <td>
-            <a href="/admin/category/edit?id={{category._id.toString()}}">修改</a> |
-            <a href="/admin/category/delete?id={{category._id.toString()}}">删除</a>
+            <a href="/admin/category/edit?cid={{category._id.toString()}}&name={{category.name}}">修改</a> |
+            <a href="/admin/category/delete?cid={{category._id.toString()}}">删除</a>
         </td>
     </tr>
     {% endfor %}
