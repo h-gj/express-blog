@@ -31,6 +31,7 @@ app.use((req, res, next) => {
 
 // 设置静态文件托管
 app.use('/public', express.static('./public'))
+app.use('/node_modules', express.static('./node_modules'))
 app.use(bodyParser.urlencoded({ extended: true }))
 
 // 根据路由划分模块
@@ -42,8 +43,8 @@ mongoose.connect('mongodb://localhost/express-blog', { useNewUrlParser: true }, 
     if (err) {
         console.log('Failed to connect to mongodb.')
     } else {
-        app.listen(3000, () => {
-            console.log('Server is listening on port 3000.')
+        app.listen(5000, () => {
+            console.log('Server is listening on port 5000...')
         })
     }
 })

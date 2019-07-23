@@ -23,17 +23,17 @@
         <th>操作</th>
     </tr>
 
-    {% for content in contents %}
+    {% for blog in blogs %}
     <tr>
-        <td>{{content._id.toString()}}</td>
-        <td>{{content.category.name}}</td>
-        <td>{{content.title}}</td>
-        <td>{{content.user.username}}</td>
-        <td>{{content.addTime|date('Y年m月d日 H:i:s', -8*60)}}</td>
-        <td>{{content.views}}</td>
+        <td>{{blog._id.toString()}}</td>
+        <td>{{blog.category.name.toString()}}</td>
+        <td>{{blog.title}}</td>
+        <td>{{blog.user.username}}</td>
+        <td>{{blog.add_time|date('Y年m月d日 H:i:s', -8*60)}}</td>
+        <td>{{blog.views}}</td>
         <td>
-            <a href="/admin/content/edit?id={{content._id.toString()}}">修改</a> |
-            <a href="/admin/content/delete?id={{content._id.toString()}}">删除</a>
+            <a href="/admin/blog/update?bid={{blog._id.toString()}}">修改</a> |
+            <a href="/admin/blog/delete?bid={{blog._id.toString()}}">删除</a>
         </td>
     </tr>
     {% endfor %}

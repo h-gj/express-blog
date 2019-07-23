@@ -1,11 +1,12 @@
 const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
+const Category = require('./category')
 
 const blogSchema = new Schema({
     category: {
-        type: Number,
-        require: true
+        type: mongoose.Schema.Types.ObjectId,
+        ref: Category
     },
     title: {
         type: String,
@@ -18,6 +19,10 @@ const blogSchema = new Schema({
     content: {
         type: String,
         require: true
+    },
+    add_time: {
+        type: Date,
+        default: Date.now
     }
 })
 

@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+{% block main %}
+
+<ol class="breadcrumb">
+    <li><a href="/">管理首页</a></li>
+    <li><span>内容修改</span></li>
+</ol>
+
+<h3>内容修改 - {{blog.title}}</h3>
+
+
+<div hidden class="alert alert-warning alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <strong id="message"></strong></div>
+
+
+
+<form role="form" method="post">
+    <div class="form-group">
+        <label for="title">分类：</label>
+        <select name="category" id="category" class="form-control">
+            {%for category in categories%}
+            {%if blog.category._id.toString() == category._id.toString()%}
+            <option value="{{category.id}}" selected>{{category.name}}</option>
+            {%else%}
+            <option value="{{category.id}}">{{category.name}}</option>
+            {%endif%}
+            {%endfor%}
+        </select>
+    </div>
+
+    <div class="form-group">
+        <label for="title">标题：</label>
+        <input type="text" value="{{blog.title}}" class="form-control" id="title" placeholder="请输入内容标题" name="title">
+    </div>
+
+    <div class="form-group">
+        <label for="desc">简介：</label>
+        <textarea name="desc" id="desc" class="form-control" rows="5" placeholder="请输入内容简介">{{blog.desc}}</textarea>
+    </div>
+
+    <div class="form-group">
+        <label for="content">内容：</label>
+        <input type="hidden" name="content" id="content" value="{{blog.content}}" class="form-control"></input>
+
+        <link type="text/css" href="/node_modules/quill/dist/quill.snow.css" rel="stylesheet">
+
+        <!-- Create the toolbar container -->
+        <div id="toolbar">
+            <button class="ql-bold">Bold</button>
+            <button class="ql-italic">Italic</button>
+        </div>
+
+        <!-- Create the editor container -->
+        <div id="editor">
+        </div>
+
+
+        <!-- Include the Quill library -->
+        <script src="/node_modules/quill/dist/quill.js"></script>
+
+        <!-- Initialize Quill editor -->
+        <script>
+            var editor = new Quill('#editor', {
+                modules: { toolbar: '#toolbar' },
+                theme: 'snow'
+            });
+            var content = $('#content').val();
+            editor.setContents(JSON.parse(content))
+        </script>
+    </div>
+    </div>
+
+    <input type="hidden" name="bid" id="bid" value="{{ blog._id.toString() }}">
+    <button type="submit" id="sub-btn" class="btn btn-default">提交</button>
+    <script>
+        $('#sub-btn').click(function () {
+            var content = JSON.stringify(editor.getContents())
+            $('#content').val(content)
+        })</script>
+</form>
+<script>
+    $('#sub-btn').click(function(e){
+        e.preventDefault();
+        var category = $('#category').val();
+        var title = $('#title').val();
+        var desc = $('#desc').val();
+        var content = $('#content').val();
+        var bid = $('#bid').val();
+        $.post('/admin/blog/update',{ category, title, desc, content, bid }, function(data){
+                $('.alert-warning').show();
+                $('#message').html(data['msg'])
+            }
+        )
+    })
+</script>
+{% endblock %}
