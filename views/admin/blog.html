@@ -35,31 +35,7 @@
 
     <div class="form-group">
         <label for="content">内容</label>
-        <!-- Include Quill stylesheet -->
-        <link type="text/css" href="/node_modules/quill/dist/quill.snow.css" rel="stylesheet">
-
-        <!-- Create the toolbar container -->
-        <div id="toolbar">
-            <button class="ql-bold">Bold</button>
-            <button class="ql-italic">Italic</button>
-        </div>
-
-        <!-- Create the editor container -->
-        <div id="editor">
-            <p>Hello World!</p>
-        </div>
-
-
-        <!-- Include the Quill library -->
-        <script src="/node_modules/quill/dist/quill.js"></script>
-
-        <!-- Initialize Quill editor -->
-        <script>
-            var editor = new Quill('#editor', {
-                modules: { toolbar: '#toolbar' },
-                theme: 'snow'
-            });
-        </script>
+        {% include 'editor.html' %}
     </div>
 
     <button id="sub-btn" type="submit" class="btn btn-default">提交</button>

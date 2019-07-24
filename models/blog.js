@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
 const Category = require('./category')
+const User = require('./user')
 
 const blogSchema = new Schema({
     category: {
@@ -22,7 +23,15 @@ const blogSchema = new Schema({
     },
     add_time: {
         type: Date,
-        default: Date.now
+        default: new Date()
+    },
+    author: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: User
+    },
+    view_count: {
+        type: Number,
+        default: 0
     }
 })
 

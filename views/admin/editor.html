@@ -1,0 +1,27 @@
+<!-- Include Quill stylesheet -->
+<link type="text/css" href="/node_modules/quill/dist/quill.snow.css" rel="stylesheet">
+
+<!-- Create the toolbar container -->
+<div id="toolbar">
+    <button class="ql-bold">Bold</button>
+    <button class="ql-italic">Italic</button>
+    <button class="ql-underline">Underline</button>
+    <button class="ql-image">Image</button>
+    <button class="ql-code-block">Code-block</button>
+</div>
+
+<!-- Create the editor container -->
+<div id="editor">
+</div>
+
+
+<!-- Include the Quill library -->
+<script src="/node_modules/quill/dist/quill.js"></script>
+
+<!-- Initialize Quill editor -->
+<script>
+    var editor = new Quill('#editor', {
+        modules: { toolbar: '#toolbar' },
+        theme: 'snow'
+    });
+</script>

@@ -1,5 +1,8 @@
 # express-blog
-## Blog based on ExpressJS.
+### Blog based on ExpressJS.
 
-# Usage
-## npm install
+# Install
+### npm install
+
+# Run
+### node app.js

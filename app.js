@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 // 设置静态文件托管
 app.use('/public', express.static('./public'))
 app.use('/node_modules', express.static('./node_modules'))
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }))
 
 // 根据路由划分模块
 app.use('/', require('./routers/front'))

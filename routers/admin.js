@@ -179,7 +179,7 @@ router.get('/bloglist', (req, res) => {
 		const skipCount = (page - 1) * pageCount
 
 		Blog.find()
-			.populate('category')
+			.populate(['category', 'author'])
 			.sort({ _id: -1 })
 			.limit(pageCount)
 			.skip(skipCount)
@@ -214,7 +214,8 @@ router.post('/blog', (req, res) => {
 		category,
 		title,
 		desc,
-		content
+		content,
+		author: req.userInfo.id
 	}).save(() => {
 		res.render('admin/success', {
 			message: 'Blog added successfully.',
@@ -252,11 +253,6 @@ router.post('/blog/update', (req, res) => {
 			// 处理未修改的情况
 			if (category == blog.category.id && title == blog.title &&
 				desc == blog.desc && content == blog.content && bid == blog.id) {
-				// return res.render('admin/success', {
-				// 	message: 'Blog updated successfully.',
-				// 	url: '/admin/bloglist',
-				// 	admin: req.userInfo
-				// })
 				return res.json({ code: 0, msg: 'Blog updated successfully.'})
 			}
 
@@ -264,11 +260,10 @@ router.post('/blog/update', (req, res) => {
 				$set: { category, title, desc, content }
 			})
 			.then((newBlog) => {
-				// return res.redirect('/admin/blog/update?bid=' + bid, {
-				// 	admin: req.userInfo,
-				// 	message: 'Blog updated successfully.'})
 				return res.json({ code: 0, msg: 'Blog updated successfully.'})
 			})
 		})
 })
+
+
 module.exports = router
