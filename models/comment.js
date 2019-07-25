@@ -1,12 +1,10 @@
 const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const Blog = require('./blog')
-const User = require('./user')
-
-const commentSchema = new mongoose.Schema({
+const commentSchema = mongoose.Schema({
     blog: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Blog
+        type: Schema.Types.ObjectId,
+        ref: 'Blog'
     },
     content: {
         type: String,
@@ -17,10 +15,10 @@ const commentSchema = new mongoose.Schema({
         default: Date.now
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: User
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     }
 })
 
 
-module.exports = Comment = mongoose.model('comments', commentSchema)
+module.exports = Comment = mongoose.model('Comment', commentSchema)

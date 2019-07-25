@@ -76,18 +76,14 @@ $(function() {
         //         }
         //     }
         // })
+        var next_to = window.location.href;
         var username = $loginBox.find('[name="username"]').val();
         var password = $loginBox.find('[name="password"]').val();
-        $.post('/api/user/login', { username, password }, function(data){
+        $.post('/api/user/login?next=' + next_to, { username, password }, function(data){
             $('p.colWarning').html(data['message']);
             if (data['code'] === 0) {
-                // setTimeout(function(){
-                //     $loginBox.hide();
-                //     $userInfo.show();
-                // }, 600)
-                window.location = '/'
+                window.location = next_to
             }
-
         })
     })
 

@@ -1,7 +1,9 @@
 const express = require('express')
 const Category = require('../models/category')
 const Blog = require('../models/blog')
+// const Blog = require('../models/blog_comment').Blog
 const Comment = require('../models/comment')
+// const Comment = require('../models/blog_comment').Comment
 
 const router = express.Router()
 
@@ -21,10 +23,11 @@ router.get('/', (req, res) => {
             data.page = page
             data.pages = pages
             data.skipCount = skipCount
-            return Blog.find(cate ? { category: cate } : null).sort({ add_time: -1 }).populate('author').limit(pageCount).skip(skipCount)
+            return Blog.find(cate ? { category: cate } : null).sort({ add_time: -1 }).populate(['author', 'comments']).limit(pageCount).skip(skipCount)
         })
         .then((blogs) => {
             data.blogs = blogs
+            console.log(data.blogs)
             return Category.find()
         })
         .then((categories) => {
@@ -46,24 +49,26 @@ router.get('/', (req, res) => {
 // 显示博客详情
 router.get('/blog', (req, res) => {
     const bid = req.query.bid || ''
+    data = {}
     Blog.findById(bid)
-    .populate('author')
+    .populate(['author', 'category'])
     .then((blog) => {
         blog.view_count ++
         blog.save()
-        Comment.find({ blog: bid })
-        .populate('author')
-        .sort({ add_time: -1 })
-        .limit(5)
-        .then((comments) => {
-            res.render('front/detail', {
-                blog,
-                comments,
-                user: req.userInfo
-            })
-
+        data.blog = blog
+        return Comment.countDocuments({ blog: data.blog.id })
+    .then((commentCount) => {
+        data.commentCount = commentCount
+        return Blog.countDocuments({ author: data.blog.author.id })
+    })
+    .then((blogCount) => {
+        res.render('front/detail', {
+            blog: data.blog,
+            commentCount: data.commentCount,
+            user: req.userInfo,
+            blogCount
         })
-
+    })
     })
 })
 
@@ -81,28 +86,9 @@ router.post('/comment', (req, res) => {
             code: 0,
             data: comment
         })
-        // res.redirect('/blog?bid=' + bid)
-    })
-
-})
-
-
-// 处理请求评论
-router.get('/comment', (req, res) => {
-    const count = Number(req.query.count) || 5
-    const curCount = Number(req.query.cc) || 0
-    const bid = req.query.bid
-    console.log(curCount)
-    Comment.find( bid ? { blog: bid } : null)
-    .populate('author')
-    .sort({ add_time: -1 })
-    .skip(curCount)
-    .limit(count)
-    .then((comments) => {
-        res.json({
-            code: 0,
-            data: comments
-        })
     })
 })
+
+
+
 module.exports = router

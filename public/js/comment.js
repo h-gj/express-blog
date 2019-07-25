@@ -1,4 +1,7 @@
 $(function(){
+    // 页面加载完，获取评论数据并渲染
+    getComments () 
+
     var timeFormat = function (date) {
         var year = date.getFullYear();
         var month = date.getMonth() + 1;
@@ -16,10 +19,15 @@ $(function(){
         return currentTime
     }
 
+    // 点击加载更多，获取评论渲染
     $('#more').click(function () {
+        getComments()
+    });
+
+    function getComments () {
         var currentCount = $('.comment').length
         var bid = $('#bid').val()
-        $.get('/comment?cc=' + currentCount + '&bid=' + bid, function (data) {
+        $.get('/api/comment?cc=' + currentCount + '&bid=' + bid, function (data) {
             if (data['code'] == 0) {
                 var data = data['data']
                 if (!data.length) {
@@ -37,8 +45,7 @@ $(function(){
                 });
             }
         })
-
-    });
+    }
 
 
     $('#messageBtn').click(function(e){
@@ -47,8 +54,20 @@ $(function(){
         var author = $('#author').text()
         var datetime = timeFormat(new Date())
         e.preventDefault()
+        
+        // 如果评论内容为空，给出提示并直接返回
+        if (! (bid && content)) {
+            $('#messageContent').attr('placeholder', '请输入评论内容')
+            return
+        }
         $.post('/comment', { bid, content }, function(data){
             if (data['code'] == 0) {
+                var commentCount = parseInt($('.commentCount').eq(0).text())
+                commentCount++;
+                $('.commentCount').text(commentCount.toString())
+
+                $('#messageContent').val('')
+                
                 $('.items').prepend(`
                 <div class="panel panel-danger comment">
                     <div class="panel-body">` + author + `评论于` + datetime + ` </div>

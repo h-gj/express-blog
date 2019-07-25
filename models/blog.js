@@ -1,13 +1,12 @@
 const mongoose = require('mongoose')
 
 const Schema = mongoose.Schema
-const Category = require('./category')
-const User = require('./user')
 
-const blogSchema = new Schema({
+
+const blogSchema = Schema({
     category: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: Category
+        type: Schema.Types.ObjectId,
+        ref: 'Category'
     },
     title: {
         type: String,
@@ -26,13 +25,18 @@ const blogSchema = new Schema({
         default: new Date()
     },
     author: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: User
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
     view_count: {
         type: Number,
         default: 0
-    }
+    },
+    comments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Comment'
+    }]
 })
 
-module.exports = Blog = mongoose.model('blogs', blogSchema)
+
+module.exports = Blog = mongoose.model('Blog', blogSchema)

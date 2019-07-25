@@ -2,6 +2,8 @@ const express = require('express')
 const md5 = require('md5')
 
 const User = require('../models/user')
+const Comment = require('../models/comment')
+// const Comment = require('../models/blog_comment').Comment
 
 const router = express.Router()
 
@@ -82,4 +84,28 @@ router.get('/user/logout', (req, res) => {
 	res.redirect('/')
 })
 
+
+// 处理请求评论
+router.get('/comment', (req, res) => {
+    const count = Number(req.query.count) || 10
+    const curCount = Number(req.query.cc) || 0
+    const bid = req.query.bid
+    console.log(curCount)
+    Comment.find( bid ? { blog: bid } : null)
+    .populate('author')
+    .sort({ add_time: -1 })
+    .skip(curCount)
+    .limit(count)
+    .then((comments) => {
+        Comment.countDocuments({ blog: bid })
+        .then((count) => {
+            res.json({
+                code: 0,
+                count,
+                data: comments,
+            })
+
+        })
+    })
+})
 module.exports = router

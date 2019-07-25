@@ -2,11 +2,17 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>博客</title>
+    <title>建的不落国</title>
     <link href="/public/css/main.css" rel="stylesheet" type="text/css">
     <link href="/public/fontAwesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
     <script src="/node_modules/jquery/dist/jquery.min.js"></script>
     <script src="/public/js/index.js"></script>
+    <style>
+    .operation {
+        text-decoration: none;
+        color: #48c5a3 !important
+    }
+    </style>
     {% block head %}{% endblock %}
 </head>
 
@@ -51,18 +57,18 @@
             
             {% if user.is_admin %}
             <p>
-                <span class="colDanger">尊贵的管理员：{{ user.username }}</span>
-                <a href="/admin">进入管理</a>
+                <span class="colDanger">尊贵的管理员：{{ user.username }}，您好！</span>
+                
             </p>
-            <p><span class="colDanger">你好，管理员！</span></p>
+            <p><a class="operation" href="/admin">进入管理</a></p>
             {% else %}
             <p>
-                <span class="colDanger">尊贵的会员：{{ user.username }}</span>
+                <span class="colDanger">亲爱的会员：{{ user.username }}，您好！</span>
             </p>
-            <p><span class="colDanger">你好！</span></p>
+            <p><a class="operation" href="#">个人中心</a></p>
             {% endif %}
 
-            <p><span class="colDark"><a href="/api/user/logout">退出</a></span></p>
+            <p><span class="colDark"><a class="operation" href="/api/user/logout">退出</a></span></p>
         </div>
         {% else %}
         <div class="rightBox" id="loginBox">
@@ -85,16 +91,33 @@
         </div>
         
 
-        <div class="rightBox">
+        <!-- <div class="rightBox">
             <div class="title"><span>社区</span></div>
             <p><a href="http://www.miaov.com" target="_blank" class="colDanger">妙味课堂</a></p>
             <p><a href="http://bbs.miaov.com" target="_blank" class="colDanger">妙味茶馆</a></p>
+        </div> -->
+        {% if blog && blog.author.id != user.id %}
+        <div class="rightBox">
+            <div class="title"><span>作者信息</span></div>
+            <p>
+                <span>用户昵称</span>
+                <span><a href="http://www.miaov.com" target="_blank" class="colDanger">{{ blog.author.username }}</a></span>
+            </p>
+            <p>
+                <span>博客数量</span>
+                <span><a href="http://bbs.miaov.com" target="_blank" class="colDanger">{{ blogCount }}</a></span>
+            </p>
+            <p>
+                <span>注册时间</span>
+                <span><a href="http://bbs.miaov.com" target="_blank" class="colDanger">{{ blog.author.add_time.toString() | date('Y-m-d H:i:s', -8*60) }}</a></span>
+            </p>
         </div>
+        {% endif %}
     </div>
 
 
 </main>
 
-<div class="copyright textCenter">Copyright © miaov.com 版权所有 | 京ICP备08102442号</div>
+<div class="copyright textCenter">Copyright © hugaojian.com 版权所有 | 湘ICP备19007920号</div>
 </body>
 </html>

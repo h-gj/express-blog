@@ -4,6 +4,7 @@ const express = require('express')
 const User = require('../models/user')
 const Category = require('../models/category')
 const Blog = require('../models/blog')
+// const Blog = require('../models/blog_comment').Blog
 
 const router = express.Router()
 
