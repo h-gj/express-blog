@@ -1,4 +1,5 @@
 $(function(){
+    
     // 页面加载完，获取评论数据并渲染
     getComments () 
 
@@ -56,8 +57,9 @@ $(function(){
         e.preventDefault()
         
         // 如果评论内容为空，给出提示并直接返回
-        if (! (bid && content)) {
+        if (! (bid && content.trim())) {
             $('#messageContent').attr('placeholder', '请输入评论内容')
+            $('#messageContent').val('')
             return
         }
         $.post('/comment', { bid, content }, function(data){

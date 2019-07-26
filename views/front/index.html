@@ -23,7 +23,7 @@
             <span class="head-info">[作者] </span><span class="colInfo">{{ blog.author.username }}</span>&nbsp;&nbsp;
             <span class="head-info">[时间] </span><span class="colInfo">{{ blog.add_time|date('Y-m-d H:i:s', -8*60) }}</span>&nbsp;&nbsp;
             <span class="head-info">[阅读] </span><span class="colInfo">{{ blog.view_count }}</span>&nbsp;&nbsp;
-            <span class="head-info">[评论] </span><span class="colInfo">{{ blog.comments.length }}</span>
+            <span class="head-info">[评论] </span><span class="colInfo">{{ blog.comment_count }}</span>
         </p>
         <dfn class="desc"><p>{{ blog.desc }}</p></dfn>
         <div class="function"><a href="/blog?bid={{blog.id}}">阅读全文</a></div>

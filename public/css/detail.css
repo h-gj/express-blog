@@ -1,0 +1,33 @@
+body {
+    background-color: #ebebeb
+}
+.span {
+    color: #f76447 !important;
+}
+.textLeft {
+    margin: 20px 0 12px 0;
+}
+.items {
+    margin-top: 40px
+}
+.articleHead {
+    text-align: left
+}
+#messageBtn {
+    height: 48px;width: 98px
+}
+#collect {
+    width: 32px;
+    height: 50px;
+    margin-left: 15px;
+    cursor: pointer
+}
+#like {
+    width: 32px;
+    height: 50px;
+    cursor: pointer
+}
+.op {
+    overflow: hidden;
+    margin-top: 20px
+}

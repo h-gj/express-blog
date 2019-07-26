@@ -3,7 +3,8 @@ const md5 = require('md5')
 
 const User = require('../models/user')
 const Comment = require('../models/comment')
-// const Comment = require('../models/blog_comment').Comment
+const Like = require('../models/like')
+const Collect = require('../models/collect')
 
 const router = express.Router()
 
@@ -87,7 +88,7 @@ router.get('/user/logout', (req, res) => {
 
 // 处理请求评论
 router.get('/comment', (req, res) => {
-    const count = Number(req.query.count) || 10
+    const count = Number(req.query.count) || 7
     const curCount = Number(req.query.cc) || 0
     const bid = req.query.bid
     console.log(curCount)
@@ -108,4 +109,37 @@ router.get('/comment', (req, res) => {
         })
     })
 })
+
+
+//  处理用户点赞
+router.get('/like', (req, res) => {
+    const query = req.query
+    Like.findOne(query)
+    .then((like) => {
+        if (like) {
+            return res.json({ code: 1, msg: 'Blog already liked.' })
+        }
+        return new Like(query).save()
+    })
+    .then((like) => {
+        res.json({ code: 0, msg: 'Blog liked successfully.' })
+    })
+})
+
+
+//  处理用户收藏
+router.get('/collect', (req, res) => {
+    const query = req.query
+    Collect.findOne(query)
+    .then((collect) => {
+        if (collect) {
+            return res.json({ code: 1, msg: 'Blog already collected.' })
+        }
+        return new Collect(query).save()
+    })
+    .then((collect) => {
+        res.json({ code: 0, msg: 'Blog collected successfully.' })
+    })
+})
+
 module.exports = router

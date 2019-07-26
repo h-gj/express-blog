@@ -9,7 +9,19 @@
     <script src="/public/js/index.js"></script>
     <script src="/node_modules/sweetalert2/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="/node_modules/sweetalert2/dist/sweetalert2.min.css"></link>
-    {% block head %}{% endblock %}
+    
+    <style>
+        .head-info{
+            color: #e67e22;
+        }
+        .title {
+            white-space: nowrap;overflow: hidden;text-overflow: ellipsis;margin: 15px 0
+        }
+        .desc {
+            display: -webkit-box;-webkit-box-orient: vertical;-webkit-line-clamp: 3;overflow: hidden;
+        }
+    </style>
+
 </head>
 
 <body>
@@ -21,19 +33,8 @@
 
 <nav>
     <div class="menu">
-        {%if cate == ''%}
-        <a href="/" class="focus">首页</a>
-        {%else%}
         <a href="/">首页</a>
-        {%endif%}
-
-        {% for category in categories %}
-        {%if cate == category.id%}
-        <a href="/?cate={{category.id}}" class="focus">{{category.name}}</a>
-        {%else%}
-        <a href="/?cate={{category.id}}">{{category.name}}</a>
-        {%endif%}
-        {%endfor%}
+        <a href="" class="focus">收藏</a>
     </div>
 </nav>
 
@@ -41,7 +42,12 @@
 
 <main class="clear">
     <div class="mainLeft">
-        {%block content%}{%endblock%}
+            {% for collection in collections %}
+            <div class="listBox">
+                <a href="/blog?bid={{ collection.blog.id }}" style="text-decoration: none;color: #e67e22;font-size: 32px"><p class="title" >{{ collection.blog.title }}</p></a>
+                <dfn class="desc"><p>{{ collection.blog.desc }}</p></dfn>
+            </div>
+            {% endfor %}
     </div>
 
     <div class="mainRight">
@@ -61,7 +67,7 @@
             <p>
                 <span class="colDanger">亲爱的会员：{{ user.username }}，您好！</span>
             </p>
-            <p><a class="operation" href="/collectlist?uid={{ user.id }}" >我的收藏</a></p>
+            <!-- <p><a class="operation" href="#">个人中心</a></p> -->
             {% endif %}
 
             <p><span class="colDark"><a class="operation" href="/api/user/logout">退出</a></span></p>

@@ -32,10 +32,10 @@ const blogSchema = Schema({
         type: Number,
         default: 0
     },
-    comments: [{
-        type: Schema.Types.ObjectId,
-        ref: 'Comment'
-    }]
+    comment_count: {
+        type: Number,
+        default: 0
+    }
 })
 
 

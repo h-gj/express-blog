@@ -1,9 +1,8 @@
 const express = require('express')
 const Category = require('../models/category')
 const Blog = require('../models/blog')
-// const Blog = require('../models/blog_comment').Blog
 const Comment = require('../models/comment')
-// const Comment = require('../models/blog_comment').Comment
+const Collect = require('../models/collect')
 
 const router = express.Router()
 
@@ -23,17 +22,19 @@ router.get('/', (req, res) => {
             data.page = page
             data.pages = pages
             data.skipCount = skipCount
-            return Blog.find(cate ? { category: cate } : null).sort({ add_time: -1 }).populate(['author', 'comments']).limit(pageCount).skip(skipCount)
+            return Blog.find(cate ? { category: cate } : null).sort({ add_time: -1 }).populate('author').limit(pageCount).skip(skipCount)
         })
         .then((blogs) => {
+            blogs.forEach(element => {
+                Comment.find({ blog: element.id }).then(((comments) => {
+                    element.comment_count = comments.length
+                }))
+            });
             data.blogs = blogs
-            console.log(data.blogs)
             return Category.find()
         })
         .then((categories) => {
             const userInfo = req.userInfo || null
-            console.log(data.page, data.pages);
-            
             res.render('front/index', {
                 categories,
                 user: userInfo,
@@ -81,7 +82,6 @@ router.post('/comment', (req, res) => {
         blog: bid,
         author: req.userInfo.id
     }).save((err, comment) => {
-        console.log(comment)
         res.json({
             code: 0,
             data: comment
@@ -89,6 +89,21 @@ router.post('/comment', (req, res) => {
     })
 })
 
+
+// 显示收藏列表
+router.get('/collectlist', (req, res) => {
+    const uid = req.query.uid || ''
+    Collect.find({ operator: uid })
+    .sort({ _id: -1 })
+    .populate('blog')
+    .then((collections) => {
+        res.render('front/collectlist', {
+            user: req.userInfo,
+            collections
+        })
+
+    })
+})
 
 
 module.exports = router

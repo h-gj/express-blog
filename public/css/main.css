@@ -413,3 +413,10 @@ footer .fotBox span {
   border-top: 1px solid #303030;
   color: #555;
 }
+
+
+/* Customed */
+.operation {
+  text-decoration: none;
+  color: #48c5a3 !important
+}

@@ -2,28 +2,9 @@
 
 {% block head %}
 <script src="/node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="/public/js/blog_operate.js"></script>
 <link rel="stylesheet" href="/node_modules/bootstrap/dist/css/bootstrap.min.css">
-<style>
-    body {
-        background-color: #ebebeb
-    }
-    .span {
-        color: #f76447 !important;
-    }
-    .textLeft {
-        margin: 20px 0 12px 0;
-    }
-    .items {
-        margin-top: 40px
-    }
-    .articleHead {
-        text-align: left
-    }
-    #messageBtn {
-        height: 48px;width: 98px
-    }
-    
-</style>
+<link rel="stylesheet" href="/public/css/detail.css">
 {% endblock %}
 
 {%block content%}
@@ -50,10 +31,24 @@
 
     <hr style="margin: 5px 0 30px 0">
 
+    <input type="hidden" id="bid" value="{{ blog.id }}">
+    <input type="hidden" id="uid" value="{{ user.id }}">
     <input type="hidden" id="content" value="{{ blog.content }}">
     <article>
         {% include '../admin/editor.html' %}
     </article>
+
+    <div class="op">
+        <div class="pull-right like-coll" id="collect">
+            <img src="/public/images/collect.png" alt="收藏">
+            <span class="span">收藏</span>
+        </div>
+
+        <div id="like" class="pull-right like-coll">
+            <img src="/public/images/like.png" alt="点赞">
+            <span class="span">点赞</span>
+        </div>
+    </div>
 
     <script>
         const content = $('#content').val()
@@ -85,7 +80,7 @@
     <div class="comments" style="text-align: left">
         <div class="items">
             {% for comment in comments %}
-            <div class="panel panel-danger comment">
+            <div class="panel panel-default comment">
                 <div class="panel-body">
                     {{ comment.author.username }}评论于{{ comment.add_time|date('Y-m-d H:i:s', -8*60) }}
                 </div>
